@@ -39,9 +39,8 @@ RUN docker-php-ext-enable \
     memcached \
     xdebug
 
-COPY xdebug.ini /tmp/xdebug.ini
-RUN cat /tmp/xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN rm /tmp/xdebug.ini
+# Add php extensions configuration
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Cleanup
 RUN rm -rf /var/lib/apt/lists/*
