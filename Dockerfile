@@ -16,7 +16,8 @@ RUN apt-get autoclean -y
 # Install PECL and PEAR extensions
 RUN pecl install \
     memcached \
-    redis
+    redis \
+    xdebug
 
 # Configure php extensions
 RUN docker-php-ext-configure \
@@ -35,7 +36,11 @@ RUN docker-php-ext-install \
 # Enable php extensions
 RUN docker-php-ext-enable \
     opcache \
-    memcached
+    memcached \
+    xdebug
+
+# Add php extensions configuration
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Cleanup
 RUN rm -rf /var/lib/apt/lists/*
