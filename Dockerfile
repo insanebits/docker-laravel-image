@@ -1,4 +1,4 @@
-FROM php:7.4.5-fpm
+FROM php:7.3.6-fpm
 
 # Install dependencies
 RUN apt-get update
@@ -38,9 +38,19 @@ RUN docker-php-ext-enable \
     opcache \
     memcached \
     xdebug
-
 # Add php extensions configuration
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+COPY opencensus-ext/* /tmp/opencensus/
+
+RUN cd /tmp/opencensus \
+    && phpize \
+    && ./configure --enable-opencensus \
+    && make -j "$(nproc)" \
+    && make install \
+    && cd ~ \
+    && rm -r /tmp/opencensus \
+    && docker-php-ext-enable opencensus
 
 # Cleanup
 RUN rm -rf /var/lib/apt/lists/*
