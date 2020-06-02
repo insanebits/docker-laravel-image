@@ -38,6 +38,7 @@ RUN docker-php-ext-enable \
     opcache \
     memcached \
     xdebug
+
 # Add php extensions configuration
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
